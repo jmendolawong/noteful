@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Sidebar from './Sidebar/Sidebar';
-import Notes from './Notes/Notes';
+import { Route, Link } from 'react-router-dom';
+import SidebarList from './SidebarList/SidebarList';
+import NoteList from './NoteList/NoteList';
 import STORE from './Store';
 import './App.css';
 
@@ -9,15 +10,30 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className='header'>
-          <h1>Noteful</h1>
-        </header>
+        <Link to='/'>
+          <header className='header'>
+            <h1>Noteful</h1>
+          </header>
+        </Link>
         <main className='main'>
-          <Sidebar folders={STORE.folders}/>
-          <Notes notes={STORE.notes}/>
+          <section className='sidebar'>
+            <Route
+              exact path='/'
+              render={() =>
+                <SidebarList folders={STORE.folders} />}
+            />
+            <Route
+              path='/folders/:folderId'
+              render={() =>
+                <SidebarList folders={STORE.folders} selected={folderId} />}
+            />
+          </section>
+          <section className='main_section'>
+            <NoteList notes={STORE.notes} />
+          </section>
         </main>
-      </div>
-    ); 
+      </div >
+    );
   }
 }
 

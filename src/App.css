@@ -17,7 +17,7 @@
   flex-grow: 1;
 }
 
-.notes {
+.main_section {
   flex-grow: 3;
 }
 
@@ -26,6 +26,19 @@
   margin-right: auto;
 }
 
-.header {
-  border-bottom: black 1px solid;
+.sidebar, .main_section {
+  border-top: 1px black solid;
+}
+
+.folder_list {
+  padding: 0;
+  vertical-align: center;
+}
+
+.folder_list > li {
+  list-style: none;
+  border: 1px black solid;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
 }

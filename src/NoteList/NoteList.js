@@ -7,8 +7,8 @@ class NoteList extends Component {
     return (
       <div className="noteList">
         <ul className='note_list'>
-          {this.props.notes.map((note, i) =>
-            <NoteItem {...note} key={i} />
+          {this.props.notes.map(note =>
+            <NoteItem {...note} key={note.id} />
           )}
         </ul>
       </div>
