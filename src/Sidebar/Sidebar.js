@@ -6,8 +6,8 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
-        <SidebarList />
-        <p>content</p>
+        <SidebarList folders={this.props.folders}/>
+        
       </div>
     );
   }

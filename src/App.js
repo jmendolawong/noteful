@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar/Sidebar';
-import Main from './Main/Main';
+import Notes from './Notes/Notes';
+import STORE from './Store';
 import './App.css';
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
@@ -11,8 +13,8 @@ class App extends Component {
           <h1>Noteful</h1>
         </header>
         <main className='main'>
-          <Sidebar />
-          <Main />
+          <Sidebar folders={STORE.folders}/>
+          <Notes notes={STORE.notes}/>
         </main>
       </div>
     ); 
