@@ -25,10 +25,8 @@ class App extends Component {
             />
             <Route
               path='/folders/:folderId'
-              component={(props) => {
-                console.log(props.match)
-                return <div />
-              }}
+              render={() =>
+                <SidebarList folders={STORE.folders} />}
             />
             <Route
               path='/notes/:noteId'
@@ -51,6 +49,7 @@ class App extends Component {
                 />
               }}
             />
+
             <Route
               path='/notes/:noteId'
               render={(props) => {
