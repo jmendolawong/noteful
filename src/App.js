@@ -10,11 +10,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Link to='/'>
-          <header className='header'>
+
+        <header className='header'>
+          <Link to='/'>
             <h1>Noteful</h1>
-          </header>
-        </Link>
+          </Link>
+        </header>
         <main className='main'>
           <section className='sidebar'>
             <Route
@@ -24,12 +25,38 @@ class App extends Component {
             />
             <Route
               path='/folders/:folderId'
-              render={() =>
-                <SidebarList folders={STORE.folders} selected={folderId} />}
+              component={(props) => {
+                console.log(props.match)
+                return <div />
+              }}
+            />
+            <Route
+              path='/notes/:noteId'
+              render={(props) => {
+                return <SidebarList />
+              }}
             />
           </section>
           <section className='main_section'>
-            <NoteList notes={STORE.notes} />
+            <Route
+              exact path='/'
+              render={() =>
+                <NoteList notes={STORE.notes} />}
+            />
+            <Route
+              path='/folders/:folderId'
+              render={(props) => {
+                return <NoteList
+                  notes={STORE.notes.filter(note => note.folderId === props.folderId)}
+                />
+              }}
+            />
+            <Route
+              path='/notes/:noteId'
+              render={(props) => {
+
+              }}
+            />
           </section>
         </main>
       </div >

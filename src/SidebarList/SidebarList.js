@@ -7,12 +7,13 @@ class SidebarList extends Component {
     return (
       <div className="sidebar_list">
         <ul className='folder_list'>
-          {this.props.folders.map(folder =>
-            <Link to={`/folder/${folder.id}`}>
-              <li key={folder.id}>
+          {this.props.folders.map(folder => {
+            return <li key={folder.id}>
+              <Link to={`/folder/${folder.id}`}>
                 {folder.name}
-              </li>
-            </Link>
+              </Link>
+            </li>
+          }
           )}
         </ul>
         <button type='submit' className='add'>Add Folder</button>
