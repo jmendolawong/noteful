@@ -38,7 +38,7 @@
 .folder_list > li {
   list-style: none;
   border: 1px black solid;
-  height: 50px;
+  
   text-align: center;
   vertical-align: middle;
 }
@@ -59,4 +59,8 @@
 
 .note_list {
   padding-right: 5%
+}
+
+.selected {
+  background: green;
 }

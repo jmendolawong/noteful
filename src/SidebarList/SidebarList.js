@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 //import SidebarItem from '../SidebarItem/SidebarItem';
 
 class SidebarList extends Component {
@@ -8,16 +8,15 @@ class SidebarList extends Component {
       <div className="sidebar_list">
         <ul className='folder_list'>
           {this.props.folders.map(folder => {
-            return <li key={folder.id}>
-              <Link to={`/folder/${folder.id}`}>
-                {folder.name}
-              </Link>
+            return <li key={folder.id} className='sidebar_items'>
+              <NavLink to={`/folder/${folder.id}`} activeStyle={{background: 'blue'}}>
+                <h2>{folder.name}</h2>
+              </NavLink>
             </li>
-          }
-          )}
+          })}
         </ul>
         <button type='submit' className='add'>Add Folder</button>
-      </div>
+      </div >
     );
   }
 }

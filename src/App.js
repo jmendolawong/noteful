@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import SidebarList from './SidebarList/SidebarList';
+import SidebarNotes from './SidebarNotes/SidebarNotes';
 import NoteList from './NoteList/NoteList';
+import Notes from './Notes/Notes';
 import STORE from './Store';
 import './App.css';
 
@@ -20,40 +22,46 @@ class App extends Component {
           <section className='sidebar'>
             <Route
               exact path='/'
-              render={() =>
-                <SidebarList folders={STORE.folders} />}
+              render={() => {
+                return <SidebarList folders={STORE.folders} />
+              }}
             />
             <Route
-              path='/folders/:folderId'
-              render={() =>
-                <SidebarList folders={STORE.folders} />}
+              path='/folder/:folderId'
+              render={(props) => {
+                return <SidebarList folders={STORE.folders} selected={props.match.params.folderId} />
+              }}
             />
             <Route
               path='/notes/:noteId'
-              render={(props) => {
-                return <SidebarList />
+              render={({history}) => {
+                return <SidebarNotes 
+                onClickBack={() => history.goBack()}
+                />
               }}
             />
           </section>
           <section className='main_section'>
             <Route
               exact path='/'
-              render={() =>
-                <NoteList notes={STORE.notes} />}
+              render={() => {
+                return <NoteList notes={STORE.notes} />
+              }}
             />
             <Route
-              path='/folders/:folderId'
+              path='/folder/:folderId'
               render={(props) => {
                 return <NoteList
-                  notes={STORE.notes.filter(note => note.folderId === props.folderId)}
+                  notes={STORE.notes.filter(note => note.folderId === props.match.params.folderId)}
                 />
               }}
             />
-
             <Route
               path='/notes/:noteId'
               render={(props) => {
-
+                return <Notes 
+                  note={STORE.notes.filter(note => note.id === props.match.params.noteId)}
+                />
               }}
             />
           </section>
