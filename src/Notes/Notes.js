@@ -1,18 +1,56 @@
 import React, { Component } from 'react';
-//import './Main.css';
+import NotefulContext from '../NotefulContext';
+import config from '../config';
+import { findNote }from '../notes-helper';
+
+function deleteNoteRequest(noteId, callback) {
+  fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(r => {
+      if (!r.ok) {
+        return r.json().then(err => {
+          throw new Error(err.status)
+        })
+      }
+      return r.json()
+    })
+    .then(data => {
+      callback(noteId)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 
 class Notes extends Component {
+  static contextType = NotefulContext;
+
   render() {
-    console.log(this.props);
+    const { noteId } = this.props.match.params
+    const { notes=[] } = this.context
+
+    const thisNote = findNote(notes, noteId) || {}
+
     return (
       <div className="noteList">
         <div className="currentNote">
-          <h2>{this.props.note[0].name}</h2>
-          <p>Modified on {this.props.note[0].modified}</p>
-          <button>Delete Note</button>
+          <h2>{thisNote.name}</h2>
+          <p>Modified on {thisNote.modified}</p>
+          <button
+            className='deleteNote'
+            onClick={() => {
+              deleteNoteRequest(noteId, this.context.deleteNote)
+              this.props.history.push('/')
+            }}>
+            Delete Note
+              </button>
         </div>
         <div className='noteContent'>
-          <p>{this.props.note[0].content}</p>
+          <p>{thisNote.content}</p>
         </div>
       </div>
     );

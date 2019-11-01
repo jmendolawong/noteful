@@ -3,8 +3,10 @@
 }
 
 .App {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: "sidebar header" "sidebar main";
+  grid-template-columns: 1fr 2.3fr;
+  grid-template-rows: 120px 1fr;
   min-height: 100vh;
 }
 
@@ -14,20 +16,34 @@
 }
 
 .sidebar {
-  flex-grow: 1;
+  grid-area: sidebar;
+  height: 100vh;
+  overflow: auto;
 }
 
 .main_section {
-  flex-grow: 3;
+  grid-area: main;
+  height: calc(100vh - 120px);
+  overflow: auto;
 }
 
-.App > header  {
-  margin-left: auto;
-  margin-right: auto;
+.header  {
+  grid-area: header;
+  grid-area: header;
+  padding-left: 16px;
+  padding-top: 32px;
+
 }
 
-.sidebar, .main_section {
+.main_section {
   border-top: 1px black solid;
+  padding-left: 10px;
+}
+
+.sidebar {
+  border-right: 5px black solid;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .folder_list {
@@ -44,7 +60,8 @@
 }
 
 .sidebar_list {
-  padding-left: 5%;
+  margin: 137px 0 0;
+  padding: 0;
 }
 
 .noteItem {

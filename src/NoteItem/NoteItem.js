@@ -1,9 +1,36 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import NotefulContext from '../NotefulContext'
+import config from '../config';
 
 //import './Main.css';
 
+function deleteNoteRequest(noteId, callback) {
+  fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(r => {
+      if (!r.ok) {
+        return r.json().then(err => {
+          throw new Error(err.status)
+        })
+      }
+      return r.json()
+    })
+    .then(data => {
+      callback(noteId)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 class NoteItem extends Component {
+  static contextType = NotefulContext;
+
   render() {
     return (
       <div className="noteItem">
@@ -12,7 +39,13 @@ class NoteItem extends Component {
             <h2>{this.props.name}</h2>
           </Link>
           <p>Modified on {this.props.modified}</p>
-          <button>Delete Note</button>
+          <button
+            className='deleteNote'
+            onClick={() => {
+              deleteNoteRequest(this.props.id, this.context.deleteNote)
+            }}>
+            Delete Note
+            </button>
         </li>
       </div>
     );

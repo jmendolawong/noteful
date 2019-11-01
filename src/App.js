@@ -4,69 +4,101 @@ import SidebarList from './SidebarList/SidebarList';
 import SidebarNotes from './SidebarNotes/SidebarNotes';
 import NoteList from './NoteList/NoteList';
 import Notes from './Notes/Notes';
-import STORE from './Store';
+//import STORE from './Store';
 import './App.css';
+import NotefulContext from './NotefulContext';
+import config from './config';
 
 class App extends Component {
+  
+  state = {
+    folders: [],
+    notes: [],
+    error: null,
+  };
+
+  addNote = note => {
+    this.setState({
+      notes: [...this.state.notes, note],
+    })
+  }
+
+  addFolder = folder => {
+    this.setState({
+      folders: [...this.state.folders, folder],
+    })
+  }
+
+  handleDeleteNote = noteId => {
+    const newNotes = this.state.notes.filter(note => 
+      note.id !== noteId
+    )
+    this.setState({notes: newNotes})
+  }
+
+  componentDidMount() {
+    Promise.all([
+        fetch(`${config.API_ENDPOINT}/notes`),
+        fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+        .then(([notesRes, foldersRes]) => {
+            if (!notesRes.ok)
+                return notesRes.json().then(e => Promise.reject(e));
+            if (!foldersRes.ok)
+                return foldersRes.json().then(e => Promise.reject(e));
+
+            return Promise.all([notesRes.json(), foldersRes.json()]);
+        })
+        .then(([notes, folders]) => {
+            this.setState({notes, folders});
+        })
+        .catch(error => {
+            console.error({error});
+        });
+}
+
 
   render() {
-    return (
-      <div className="App">
+    const contextValue = {
+      folders: this.state.folders,
+      notes: this.state.notes,
+      addFolder: this.addFolder,
+      addNote: this.addNote,
+      deleteNote: this.handleDeleteNote,
+    }
 
-        <header className='header'>
-          <Link to='/'>
-            <h1>Noteful</h1>
-          </Link>
-        </header>
-        <main className='main'>
-          <section className='sidebar'>
+    return (
+      <NotefulContext.Provider value={contextValue}>
+        <div className="App">
+          <nav className='sidebar'>
             <Route
               exact path='/'
-              render={() => {
-                return <SidebarList folders={STORE.folders} />
-              }}
-            />
+              component={SidebarList} />
             <Route
               path='/folder/:folderId'
-              render={(props) => {
-                return <SidebarList folders={STORE.folders} selected={props.match.params.folderId} />
-              }}
-            />
+              component={SidebarList} />
             <Route
               path='/notes/:noteId'
-              render={({history}) => {
-                return <SidebarNotes 
-                onClickBack={() => history.goBack()}
-                />
-              }}
-            />
-          </section>
-          <section className='main_section'>
+              component={SidebarNotes} />
+          </nav>
+          <header className='header'>
+            <Link to='/'>
+              <h1>Noteful</h1>
+            </Link>
+          </header>
+          <main className='main_section'>
             <Route
               exact path='/'
-              render={() => {
-                return <NoteList notes={STORE.notes} />
-              }}
-            />
+              component={NoteList} />
             <Route
               path='/folder/:folderId'
-              render={(props) => {
-                return <NoteList
-                  notes={STORE.notes.filter(note => note.folderId === props.match.params.folderId)}
-                />
-              }}
-            />
+              component={NoteList} />
             <Route
               path='/notes/:noteId'
-              render={(props) => {
-                return <Notes 
-                  note={STORE.notes.filter(note => note.id === props.match.params.noteId)}
-                />
-              }}
-            />
-          </section>
-        </main>
-      </div >
+              component={Notes} />
+          </main>
+        </div>
+      </NotefulContext.Provider>
     );
   }
 }

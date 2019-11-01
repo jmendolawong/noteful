@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-//import SidebarItem from '../SidebarItem/SidebarItem';
+import { NavLink } from 'react-router-dom';
+import NotefulContext from '../NotefulContext';
 
 class SidebarList extends Component {
+  static contextType = NotefulContext;
+
   render() {
     return (
       <div className="sidebar_list">
         <ul className='folder_list'>
-          {this.props.folders.map(folder => {
+          {this.context.folders.map(folder => {
             return <li key={folder.id} className='sidebar_items'>
               <NavLink to={`/folder/${folder.id}`} activeStyle={{background: 'blue'}}>
                 <h2>{folder.name}</h2>
