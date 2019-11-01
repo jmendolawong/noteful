@@ -27,7 +27,7 @@ class SidebarNotes extends Component {
         <button type='button' onClick={this.handleClickBack}>
           Go Back
         </button>
-        <h2>Folder x</h2>
+        <h2>Folder {thisFolder.name}</h2>
       </div>
     );
   }
