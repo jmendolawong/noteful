@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import NotefulContext from '../NotefulContext'
-import config from '../config';
+import config from '../config'
+import Moment from 'react-moment'
+import PropTypes from 'prop-types'
 
 //import './Main.css';
 
@@ -28,7 +30,7 @@ function deleteNoteRequest(noteId, callback) {
     })
 }
 
-class NoteItem extends Component {
+export default class NoteItem extends Component {
   static contextType = NotefulContext;
 
   render() {
@@ -38,7 +40,11 @@ class NoteItem extends Component {
           <Link to={`/notes/${this.props.id}`}>
             <h2>{this.props.name}</h2>
           </Link>
-          <p>Modified on {this.props.modified}</p>
+          <p>Modified on
+            <Moment format=' MM/DD/YYYY'>
+              {this.props.modified}
+            </Moment>
+          </p>
           <button
             className='deleteNote'
             onClick={() => {
@@ -52,4 +58,8 @@ class NoteItem extends Component {
   }
 }
 
-export default NoteItem;
+NoteItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  modified: PropTypes.string
+};

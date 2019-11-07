@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
 
 class SidebarList extends Component {
@@ -11,13 +11,15 @@ class SidebarList extends Component {
         <ul className='folder_list'>
           {this.context.folders.map(folder => {
             return <li key={folder.id} className='sidebar_items'>
-              <NavLink to={`/folder/${folder.id}`} activeStyle={{background: 'blue'}}>
+              <NavLink to={`/folder/${folder.id}`} activeStyle={{ background: 'blue' }}>
                 <h2>{folder.name}</h2>
               </NavLink>
             </li>
           })}
         </ul>
-        <button type='submit' className='add'>Add Folder</button>
+        <Link to={'/addFolder'}>
+          <button className='add'>Add Folder</button>
+        </Link >
       </div >
     );
   }
