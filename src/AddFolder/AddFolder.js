@@ -10,13 +10,13 @@ function addFolderRequest(name, callback) {
     },
     body: JSON.stringify({ name: name })
   })
-    .then(r => {
-      if (!r.ok) {
-        return r.json().then(err => {
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => {
           throw new Error(err.status)
         })
       }
-      return r.json()
+      return res.json()
     })
     .then(data => {
       callback(data)
@@ -45,7 +45,7 @@ export default class AddFolder extends Component {
         <h2>Add a new folder</h2>
         <div className='form-group'>
           <label htmlFor='name'>Folder name: </label>
-          <input type='text' name='name' id='name' required/>
+          <input type='text' name='name' id='name' required />
         </div>
 
         <button onClick={e => this.props.history.push('/')}>

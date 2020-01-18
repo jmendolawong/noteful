@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NotefulContext from '../NotefulContext';
 import config from '../config';
-import { findNote }from '../notes-helper';
+import { findNote }from '../notes-helper'; 
 
 function deleteNoteRequest(noteId, callback) {
   fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
@@ -10,13 +10,13 @@ function deleteNoteRequest(noteId, callback) {
       'content-type': 'application/json'
     }
   })
-    .then(r => {
-      if (!r.ok) {
-        return r.json().then(err => {
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => {
           throw new Error(err.status)
         })
       }
-      return r.json()
+      return res.json()
     })
     .then(data => {
       callback(noteId)

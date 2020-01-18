@@ -12,9 +12,9 @@ class SidebarNotes extends Component {
   render() {
     const { notes, folders } = this.context
     const { noteId } = this.props.match.params
- 
+
     const note = findNote(notes, noteId) || {}
-    const thisFolder = findFolder(folders, note.folderId)
+    const thisFolder = findFolder(folders, note.folderid)
 
     return (
       <div className="sidebar_list">

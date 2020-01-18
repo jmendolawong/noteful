@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import NotefulContext from '../NotefulContext'
-import config from '../config'
-import { findFolder } from '../notes-helper'
-import { format } from 'date-fns'
+import React, { Component } from 'react';
+import NotefulContext from '../NotefulContext';
+import config from '../config';
+import { findFolder } from '../notes-helper';
+import { format } from 'date-fns';
 
 function addNoteRequest(callback, name, content, folderId) {
   //need  wrest folderid to tie to folder
@@ -14,15 +14,15 @@ function addNoteRequest(callback, name, content, folderId) {
     headers: {
       'content-type': 'application/json'
     },
-    body: JSON.stringify({name:name, modified:date, folderId:folderId, content:content})
+    body: JSON.stringify({name:name, modified:date, folderid:folderId, content:content})
   })
-    .then(r => {
-      if (!r.ok) {
-        return r.json().then(err => {
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => {
           throw new Error(err.status)
         })
       }
-      return r.json()
+      return res.json()
     })
     .then(data => {
       console.log(data)

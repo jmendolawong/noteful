@@ -48,8 +48,18 @@ export default class App extends Component {
 
   componentDidMount() {
     Promise.all([
-      fetch(`${config.API_ENDPOINT}/notes`),
-      fetch(`${config.API_ENDPOINT}/folders`)
+      fetch(`${config.API_ENDPOINT}/notes`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json'
+        }
+      }),
+      fetch(`${config.API_ENDPOINT}/folders`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
     ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok)
