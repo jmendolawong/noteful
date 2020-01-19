@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NotefulContext from '../NotefulContext';
 import config from '../config';
-import { findFolder } from '../notes-helper';
 import { format } from 'date-fns';
 
 function addNoteRequest(callback, name, content, folderId) {
@@ -12,20 +11,18 @@ function addNoteRequest(callback, name, content, folderId) {
   fetch(`${config.API_ENDPOINT}/notes`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${config.API_KEY}`
     },
     body: JSON.stringify({name:name, modified:date, folderid:folderId, content:content})
   })
     .then(res => {
       if (!res.ok) {
-        return res.json().then(err => {
-          throw new Error(err.status)
-        })
+        return res.json().then(error => Promise.reject(error))
       }
       return res.json()
     })
     .then(data => {
-      console.log(data)
       callback(data)
     })
     .catch(error => {
@@ -42,8 +39,6 @@ export default class AddNote extends Component {
     const name = e.target.name.value;
     const content = e.target.content.value;
     const folderId = e.target.whichFolder.value
-    const folderName = findFolder(this.context.folders, folderId)
-    console.log(folderName)
     addNoteRequest(this.context.addNote, name, content, folderId);
     this.props.history.push('/');
   }

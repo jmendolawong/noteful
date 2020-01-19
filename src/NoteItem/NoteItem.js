@@ -11,18 +11,17 @@ function deleteNoteRequest(noteId, callback) {
   fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
     method: 'DELETE',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${config.API_KEY}`
     }
   })
-    .then(r => {
-      if (!r.ok) {
-        return r.json().then(err => {
-          throw new Error(err.status)
-        })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(error => Promise.reject(error))
       }
-      return r.json()
+      // no content on success so skip res.json()
     })
-    .then(data => {
+    .then(() => {
       callback(noteId)
     })
     .catch(err => {

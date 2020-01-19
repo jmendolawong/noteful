@@ -7,19 +7,17 @@ function deleteNoteRequest(noteId, callback) {
   fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
     method: 'DELETE',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${config.API_KEY}`
     }
   })
     .then(res => {
       if (!res.ok) {
-        return res.json().then(err => {
-          throw new Error(err.status)
-        })
+        return res.json().then(err => error => Promise.reject(error))
       }
-      return res.json()
     })
-    .then(data => {
-      callback(noteId)
+    .then(() => {
+      callback(parseInt(noteId))
     })
     .catch(err => {
       console.log(err)

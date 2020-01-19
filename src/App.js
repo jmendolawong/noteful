@@ -51,13 +51,15 @@ export default class App extends Component {
       fetch(`${config.API_ENDPOINT}/notes`, {
         method: 'GET',
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'Authorization': `Bearer ${config.API_KEY}`
         }
       }),
       fetch(`${config.API_ENDPOINT}/folders`, {
         method: 'GET',
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'Authorization': `Bearer ${config.API_KEY}`
         }
       })
     ])

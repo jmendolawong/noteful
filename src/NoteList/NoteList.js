@@ -12,19 +12,8 @@ class NoteList extends Component {
 
     const { folderId } = this.props.match.params
     const { notes = [] } = this.context
-    console.log(this.props.match.params)
-    console.log(this.context.notes)
-    
-    /*
-    const getNotesForFolder = (notes = [], folderId) => (
-      (!folderId)
-        ? notes
-        : notes.filter(note => note.folderId === folderId)
-    )
-    */
 
     const notesForFolder = folderNotes(notes, folderId)
-    console.log(`FolderNotes: ${notesForFolder}`)
     return (
       <div className="noteList">
         <ul className='note_list'>

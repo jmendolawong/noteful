@@ -6,7 +6,8 @@ function addFolderRequest(name, callback) {
   fetch(`${config.API_ENDPOINT}/folders`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${config.API_KEY}`
     },
     body: JSON.stringify({ name: name })
   })
@@ -32,7 +33,6 @@ export default class AddFolder extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const name = e.target.name.value;
-    console.log(name)
     addFolderRequest(name, this.context.addFolder);
     this.props.history.push('/');
   }
